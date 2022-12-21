@@ -1,0 +1,30 @@
+1~----------------------------
+City ID - 804
+City Name - Mariupol
+Country - UA
+x-coordinates - 47.0667
+y-coordinates - 37.5
+Minumum Temperature - 275.13
+Maximum Temperature - 275.13
+Sunrise-coordinates - 1671599584
+Sunset coordinates - 1671630168
+2~----------------------------
+City ID - 804
+City Name - Kharkiv
+Country - UA
+x-coordinates - 50
+y-coordinates - 36.25
+Minumum Temperature - 273.13
+Maximum Temperature - 273.13
+Sunrise-coordinates - 1671600651
+Sunset coordinates - 1671629702
+3~----------------------------
+City ID - 803
+City Name - Kyiv
+Country - UA
+x-coordinates - 50.4333
+y-coordinates - 30.5167
+Minumum Temperature - 272.79
+Maximum Temperature - 272.79
+Sunrise-coordinates - 1671602150
+Sunset coordinates - 1671630955
