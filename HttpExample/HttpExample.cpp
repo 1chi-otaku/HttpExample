@@ -71,6 +71,17 @@ int main()
         cout << "Enter City Name - ";
         cin >> cityname;
         if (cityname == "0") {
+            //отключает отправку и получение сообщений сокетом
+            iResult = shutdown(connectSocket, SD_BOTH);
+            if (iResult == SOCKET_ERROR) {
+                cout << "shutdown failed: " << WSAGetLastError() << endl;
+                closesocket(connectSocket);
+                WSACleanup();
+                return 7;
+            }
+
+            closesocket(connectSocket);
+            WSACleanup();
             return 0;
         }
         string uri = "/data/2.5/weather?q=" + cityname + "&appid=75f6e64d49db78658d09cb5ab201e483&mode=JSON";
@@ -145,15 +156,5 @@ int main()
    
 
 
-    //отключает отправку и получение сообщений сокетом
-    iResult = shutdown(connectSocket, SD_BOTH);
-    if (iResult == SOCKET_ERROR) {
-        cout << "shutdown failed: " << WSAGetLastError() << endl;
-        closesocket(connectSocket);
-        WSACleanup();
-        return 7;
-    }
-
-    closesocket(connectSocket);
-    WSACleanup();
+   
 }
