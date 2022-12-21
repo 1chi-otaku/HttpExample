@@ -4,11 +4,13 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 int main()
 {
     string cityname;
+    int i = 1;
     //1. инициализация "Ws2_32.dll" для текущего процесса
     WSADATA wsaData;
     WORD wVersionRequested = MAKEWORD(2, 2);
@@ -63,13 +65,15 @@ int main()
         }
         break;
     }
-
     //4. HTTP Request
     while (true)
     {
+        system("cls");
         cout << "Enter 0 to exit." << endl;
+        cout << "Enter \"Log\" to see request history." << endl;
         cout << "Enter City Name - ";
         cin >> cityname;
+        system("cls");
         if (cityname == "0") {
             //отключает отправку и получение сообщений сокетом
             iResult = shutdown(connectSocket, SD_BOTH);
@@ -83,6 +87,23 @@ int main()
             closesocket(connectSocket);
             WSACleanup();
             return 0;
+        }
+        else if (cityname == "Log") {
+            system("cls");
+            string line;
+
+            std::ifstream in("history.txt"); 
+            if (in.is_open())
+            {
+                while (getline(in, line))
+                {
+                    std::cout << line << std::endl;
+                }
+            }
+            in.close();     
+            cout << line;
+            system("pause");
+            continue;
         }
         string uri = "/data/2.5/weather?q=" + cityname + "&appid=75f6e64d49db78658d09cb5ab201e483&mode=JSON";
 
@@ -132,24 +153,33 @@ int main()
             }
         }
         const int DATA_AMOUNT = 9;
+        string new_string;
         string subject_to_search[DATA_AMOUNT] = { "id","name","country","lat", "lon", "temp_min","temp_max", "sunrise","sunset" };
         string subject_to_show[DATA_AMOUNT] = { "City ID - ", "City Name - ", "Country - ", "x-coordinates - ", "y-coordinates - ","Minumum Temperature - ", "Maximum Temperature - ", "Sunrise-coordinates - ", "Sunset coordinates - " };
-
+        ofstream out;
         system("cls");
+        out.open("history.txt",std::ios::app);
         for (int i = 0; i < DATA_AMOUNT; i++)
         {
             size_t found = response.find(subject_to_search[i]);
-            cout << subject_to_show[i];
+            //cout << subject_to_show[i];
+            new_string += subject_to_show[i];
             for (int j = found + subject_to_search[i].length() + 2; response[j] != '\n'; j++)
             {
                 if (response[j] != '"') {
-                    cout << response[j];
+                    //cout << response[j];
+                    new_string += response[j];
                 }
             }
-            cout << endl;
+            new_string += '\n';
+            //cout << endl;
         }
+        out << i << "~----------------------------\n";
+        out << new_string;
+        cout << new_string;
         system("pause");
-        system("cls");
+        i++;
+       
     }
    
 
